@@ -1,0 +1,42 @@
+"""Gaussian Naive Bayes classifier module."""
+
+from __future__ import annotations
+
+import pandas as pd
+from sklearn.naive_bayes import GaussianNB
+
+from model.evaluation import EvaluationResult, build_model_pipeline, train_evaluate_and_save
+from model.preprocessing import prepare_train_test_data
+
+MODEL_DISPLAY_NAME = "Naive Bayes"
+ARTIFACT_FILENAME = "naive_bayes_model.joblib"
+
+
+def build_pipeline():
+    """Create the preprocessing + Gaussian Naive Bayes pipeline."""
+    estimator = GaussianNB(var_smoothing=1e-1)
+    return build_model_pipeline(estimator, scale_numeric=True)
+
+
+def run_naive_bayes(
+    X_train: pd.DataFrame,
+    X_test: pd.DataFrame,
+    y_train: pd.Series,
+    y_test: pd.Series,
+) -> EvaluationResult:
+    """Train, evaluate, and persist the Gaussian Naive Bayes model."""
+    return train_evaluate_and_save(
+        model_name=MODEL_DISPLAY_NAME,
+        pipeline=build_pipeline(),
+        artifact_filename=ARTIFACT_FILENAME,
+        X_train=X_train,
+        X_test=X_test,
+        y_train=y_train,
+        y_test=y_test,
+    )
+
+
+if __name__ == "__main__":
+    X_tr, X_te, y_tr, y_te, _ = prepare_train_test_data(save_test_csv=False)
+    result = run_naive_bayes(X_tr, X_te, y_tr, y_te)
+    print(result.to_row())
