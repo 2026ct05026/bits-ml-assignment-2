@@ -147,6 +147,6 @@ python -m model.random_forest
 
 ---
 
-## 5. BITS Virtual Lab Execution Screenshot
+## 5. BITS Virtual Lab Execution Screenshot- attached in the assignment pdf given.
 
-*(Attach screenshot of `python main.py` execution inside BITS Virtual Lab when exporting the final submission PDF.)*
+
